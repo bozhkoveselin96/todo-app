@@ -1,0 +1,28 @@
+.todo-item {
+    width: 500px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 5px auto;
+}
+
+.date {
+    text-align: center;
+    margin: 2px;
+}
+
+.description, .priority {
+    margin: 5px;
+    word-wrap: break-word;
+}
+
+.LOW {
+    color: green;
+}
+
+.MEDIUM {
+    color: orange;
+}
+
+.HIGH {
+    color: red;
+}

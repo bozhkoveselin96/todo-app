@@ -9,23 +9,29 @@ export default class Container extends Component {
             todos : []
         }
         this.addTodo = this.addTodo.bind(this);
+        this.completeTodo = this.completeTodo.bind(this);
     }
 
     addTodo(formDescription, formPriority) {
         let allTodos = this.state.todos;
         let nextId = allTodos.length + 1;
         allTodos.push({
-            todo: {
-                id: nextId,
-                date: new Date().toLocaleString(),
-                description: formDescription,
-                priority: formPriority
+            todo : {
+                id : nextId,
+                date : new Date().toLocaleString(),
+                description : formDescription,
+                priority : formPriority,
+                completed : false
             }
         });
         this.setState({
             todos: allTodos
         })
-        console.log(this.state.todos)
+    }
+
+    completeTodo(todoId) {
+        let allTodos = this.state.todos;
+        let completedTodo = allTodos.find(item => item.todo.id === todoId);
     }
 
     render() {
@@ -34,7 +40,10 @@ export default class Container extends Component {
                 <h1>My first React app</h1>
                 <h2>Todo App</h2>
                 <FormTodo addTodo={ this.addTodo } />
-                <ListTodos  todos={ this.state.todos } />
+                <ListTodos
+                    todos={ this.state.todos }
+                    completeTodo={ this.completeTodo }
+                />
             </div>
         );
     }
