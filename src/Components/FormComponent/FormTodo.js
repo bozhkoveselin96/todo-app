@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./FormTodo.css";
 
 class FormTodo extends Component {
     constructor(props) {
@@ -33,7 +34,8 @@ class FormTodo extends Component {
 
     render() {
         return (
-            <div>
+            <div className="add-todo-form">
+                <h1 className="center">My first React app</h1>
                 <form onSubmit={ this.onFormSubmit }>
                     <input type="text" placeholder="Enter a todo" onChange={ this.onInputChange }/>
                     <select onChange={ this.onSelectChange }>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import FormTodo from "./FormTodo";
-import ListTodos from "./ListTodos";
+import FormTodo from "./FormComponent/FormTodo";
+import ListTodos from "./ListComponent/ListTodos";
 
 export default class Container extends Component {
     constructor(props) {
@@ -10,6 +10,7 @@ export default class Container extends Component {
         }
         this.addTodo = this.addTodo.bind(this);
         this.completeTodo = this.completeTodo.bind(this);
+        this.removeTodo = this.removeTodo.bind(this);
     }
 
     addTodo(formDescription, formPriority) {
@@ -29,20 +30,30 @@ export default class Container extends Component {
         })
     }
 
-    completeTodo(todoId) {
-        let allTodos = this.state.todos;
-        let completedTodo = allTodos.find(item => item.todo.id === todoId);
+    completeTodo(todoIndex) {
+        this.setState(({ todos }) => {
+            const allTodos = [ ...todos ];
+            allTodos[todoIndex].todo.completed = true;
+            return { todos : allTodos };
+        });
+    }
+
+    removeTodo(todoIndex) {
+        this.setState(({ todos }) => {
+            const allTodos = [ ...todos ];
+            allTodos.splice(todoIndex,1);
+            return { todos : allTodos };
+        });
     }
 
     render() {
         return (
             <div>
-                <h1>My first React app</h1>
-                <h2>Todo App</h2>
                 <FormTodo addTodo={ this.addTodo } />
                 <ListTodos
                     todos={ this.state.todos }
                     completeTodo={ this.completeTodo }
+                    removeTodo={ this.removeTodo }
                 />
             </div>
         );
