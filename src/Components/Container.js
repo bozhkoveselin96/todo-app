@@ -11,6 +11,7 @@ export default class Container extends Component {
         this.addTodo = this.addTodo.bind(this);
         this.completeTodo = this.completeTodo.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
+        this.getTodoToEdit = this.getTodoToEdit.bind(this);
     }
 
     addTodo(formDescription, formPriority) {
@@ -46,14 +47,23 @@ export default class Container extends Component {
         });
     }
 
+    getTodoToEdit(todoIndex) {
+        const todoToEdit = this.state.todos[todoIndex];
+    }
+
+
     render() {
         return (
             <div>
-                <FormTodo addTodo={ this.addTodo } />
+                <FormTodo
+                    addTodo={ this.addTodo }
+                    // editTodo={ todo }
+                />
                 <ListTodos
                     todos={ this.state.todos }
                     completeTodo={ this.completeTodo }
                     removeTodo={ this.removeTodo }
+                    getTodoToEdit={ this.getTodoToEdit }
                 />
             </div>
         );

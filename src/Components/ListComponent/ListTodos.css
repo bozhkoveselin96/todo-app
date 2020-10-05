@@ -34,3 +34,11 @@
 .false {
     text-decoration: none;
 }
+
+.on {
+    display: none;
+}
+
+.off {
+    display: block;
+}
