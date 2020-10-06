@@ -11,7 +11,8 @@ export default class Container extends Component {
         this.addTodo = this.addTodo.bind(this);
         this.completeTodo = this.completeTodo.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
-        this.getTodoToEdit = this.getTodoToEdit.bind(this);
+        this.cancelCompleteTodo = this.cancelCompleteTodo.bind(this);
+        this.changeTodoCompleteStatus = this.changeTodoCompleteStatus.bind(this);
     }
 
     addTodo(formDescription, formPriority) {
@@ -32,11 +33,7 @@ export default class Container extends Component {
     }
 
     completeTodo(todoIndex) {
-        this.setState(({ todos }) => {
-            const allTodos = [ ...todos ];
-            allTodos[todoIndex].todo.completed = true;
-            return { todos : allTodos };
-        });
+        this.changeTodoCompleteStatus(true, todoIndex);
     }
 
     removeTodo(todoIndex) {
@@ -47,23 +44,27 @@ export default class Container extends Component {
         });
     }
 
-    getTodoToEdit(todoIndex) {
-        const todoToEdit = this.state.todos[todoIndex];
+    cancelCompleteTodo(todoIndex) {
+        this.changeTodoCompleteStatus(false, todoIndex);
     }
 
+    changeTodoCompleteStatus(status, todoIndex) {
+        this.setState(({ todos }) => {
+            const allTodos = [ ...todos ];
+            allTodos[todoIndex].todo.completed = status;
+            return { todos : allTodos };
+        });
+    }
 
     render() {
         return (
             <div>
-                <FormTodo
-                    addTodo={ this.addTodo }
-                    // editTodo={ todo }
-                />
+                <FormTodo addTodo={ this.addTodo }/>
                 <ListTodos
                     todos={ this.state.todos }
                     completeTodo={ this.completeTodo }
                     removeTodo={ this.removeTodo }
-                    getTodoToEdit={ this.getTodoToEdit }
+                    cancelCompleteTodo={ this.cancelCompleteTodo }
                 />
             </div>
         );

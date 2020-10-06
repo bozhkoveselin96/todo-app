@@ -11,8 +11,9 @@
 }
 
 .description, .priority {
-    margin: 5px;
     word-wrap: break-word;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .LOW {
@@ -41,4 +42,27 @@
 
 .off {
     display: block;
+}
+
+.card-actions {
+    width: 95%;
+    justify-content: flex-end;
+}
+
+hr {
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+.MuiCardContent-root {
+    padding-top: 8px !important;
+    padding-bottom: 0 !important;
+}
+
+.true-completed {
+    display: block;
+}
+
+.false-completed {
+    display: none;
 }

@@ -1,14 +1,20 @@
 import React, { Component } from "react";
-import "./ListTodos.css"
+import "./ListTodos.css";
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneIcon from '@material-ui/icons/DoneOutline';
+import UndoIcon from '@material-ui/icons/Undo';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
 
 export default class ListTodos extends Component {
     constructor(props) {
         super(props);
-        this.state = { todos : props.todos };
         this.onComplete = this.onComplete.bind(this);
         this.onRemove = this.onRemove.bind(this);
-        this.onEdit = this.onEdit.bind(this);
-        this.onDescriptionChange = this.onDescriptionChange.bind(this);
+        this.onCancel = this.onCancel.bind(this);
     }
 
     onComplete(index) {
@@ -19,58 +25,48 @@ export default class ListTodos extends Component {
         this.props.removeTodo(index);
     }
 
-    onEdit(index) {
-        let allTodos = this.state.todos;
-        let todoToEdit = allTodos[index].todo;
-        todoToEdit.editMode = 'on';
-        allTodos[index].todo.editMode = todoToEdit.editMode;
-        this.setState({ todos : allTodos } );
-        console.log(this.state)
-        // this.props.getTodoToEdit(index);
-    }
-
-    onDescriptionChange(index, event) {
-        let allTodos = this.state.todos;
-        let todoToEdit = allTodos[index].todo;
-        todoToEdit.description = event.target.value;
-        allTodos[index].todo.description = todoToEdit.description;
-        this.setState({ todos : allTodos } );
+    onCancel(index) {
+        this.props.cancelCompleteTodo(index);
     }
 
     render() {
-        this.state.todos.map(item => {
-            if (item.todo.editMode === undefined) {
-                item.todo.editMode = 'off';
-            }
-        });
-        let todos = this.state.todos;
+        let todos = this.props.todos || [];
         return (
             <div className="todos">
                 { todos.map((item, index) =>
-                    <div key={ index } className={`todo-item ${ String(item.todo.completed) }`}>
-                        <p className="date">{ item.todo.date }</p>
-                        <hr/>
-                        Description:<input
-                            type="text"
-                            className="description"
-                            value={ item.todo.description }
-                            onChange={ event => this.onDescriptionChange(index, event) }
-                    />
-                        <p className="priority">
-                            Priority: <span className={ item.todo.priority }>
-                                            { item.todo.priority }
-                                      </span>
-                        </p>
-                        <div className={ item.todo.editMode }>
-                            <button onClick={ () => this.onComplete(index) }>Complete</button>
-                            <button onClick={ () => this.onRemove(index) }>Delete</button>
-                            <button onClick={ () => this.onEdit(index) }>Edit</button>
-                        </div>
-                        <div className={ () => (item.todo.editMode === 'on') ? 'off' : 'on' }>
-                            <button onClick={ () => this.onSave(index) }>Save</button>
-                            <button onClick={ () => this.onCancel(index) }>Cancel</button>
-                        </div>
-                    </div>) }
+                    <Card key={ index } className={`todo-item `}>
+                        <CardContent className={ String(item.todo.completed) }>
+                            <Typography variant={ "h6" } className="date">
+                                { item.todo.date }
+                            </Typography>
+                            <hr/>
+                            <Typography variant={ "h5" }>
+                                <b>Description: </b>
+                                <span className="description">
+                                    { item.todo.description }
+                                </span>
+                                <p className="priority">
+                                    <b>Priority: </b>
+                                    <span className={ item.todo.priority }>
+                                        { item.todo.priority }
+                                    </span>
+                                </p>
+                            </Typography>
+                        </CardContent>
+                        <CardActions className="card-actions">
+                            <span className={`${ String(!item.todo.completed) }-completed`}>
+                                <Button variant="contained" color="primary" onClick={ () => this.onComplete(index) }>
+                                    <DoneIcon />
+                                </Button>
+                            </span>
+                            <span className={`${ String(item.todo.completed) }-completed`}>
+                                <Button variant="contained" color="primary" onClick={ () => this.onCancel(index) }>
+                                    <UndoIcon />
+                                </Button>
+                            </span>
+                            <Button variant="contained" color="secondary" onClick={ () => this.onRemove(index) }><DeleteIcon /></Button>
+                        </CardActions>
+                    </Card>) }
             </div>
         );
     }
