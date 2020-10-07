@@ -18,3 +18,13 @@
     width: 100%;
 }
 
+.add-todo-btn {
+    width: 100%;
+}
+
+.errors {
+    font-size: small;
+    font-style: italic;
+    color: red;
+}
+

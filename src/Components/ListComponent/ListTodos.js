@@ -12,21 +12,16 @@ import CardActions from '@material-ui/core/CardActions';
 export default class ListTodos extends Component {
     constructor(props) {
         super(props);
-        this.onComplete = this.onComplete.bind(this);
         this.onRemove = this.onRemove.bind(this);
-        this.onCancel = this.onCancel.bind(this);
-    }
-
-    onComplete(index) {
-        this.props.completeTodo(index);
+        this.onToggle = this.onToggle.bind(this);
     }
 
     onRemove(index) {
         this.props.removeTodo(index);
     }
 
-    onCancel(index) {
-        this.props.cancelCompleteTodo(index);
+    onToggle(index, status) {
+        this.props.toggleComplete(index, status);
     }
 
     render() {
@@ -54,16 +49,10 @@ export default class ListTodos extends Component {
                             </Typography>
                         </CardContent>
                         <CardActions className="card-actions">
-                            <span className={`${ String(!item.todo.completed) }-completed`}>
-                                <Button variant="contained" color="primary" onClick={ () => this.onComplete(index) }>
-                                    <DoneIcon />
-                                </Button>
-                            </span>
-                            <span className={`${ String(item.todo.completed) }-completed`}>
-                                <Button variant="contained" color="primary" onClick={ () => this.onCancel(index) }>
-                                    <UndoIcon />
-                                </Button>
-                            </span>
+                            <Button variant="contained" color="primary" onClick={ () => this.onToggle(index, item.todo.completed) }>
+                                <DoneIcon className={`${ String(!item.todo.completed) }-completed`} />
+                                <UndoIcon className={`${ String(item.todo.completed) }-completed`} />
+                            </Button>
                             <Button variant="contained" color="secondary" onClick={ () => this.onRemove(index) }><DeleteIcon /></Button>
                         </CardActions>
                     </Card>) }

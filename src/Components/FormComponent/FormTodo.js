@@ -13,32 +13,63 @@ import FormControl from '@material-ui/core/FormControl';
 class FormTodo extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            description: '',
-            priority: 'LOW'
+            fields : {
+                description: "",
+                priority: ""
+            },
+            errors : {}
         };
         this.onSelectChange = this.onSelectChange.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.handleValidation = this.handleValidation.bind(this);
     }
 
+    handleValidation() {
+        let fields = this.state.fields;
+        let errors = {};
+        let formIsValid = true;
+
+        // Description
+        if (!fields.description) {
+            formIsValid = false;
+            errors.description = "Description is required!";
+        } else if (typeof fields.description !== "undefined") {
+            if (!fields.description.match(/^[a-zA-Z]+$/)) {
+                formIsValid = false;
+                errors.description = "Description must have only letters!";
+            }
+        }
+
+        // Priority
+        if (fields.priority === "") {
+            formIsValid = false;
+            errors.priority = "Priority must be LOW, MEDIUM or HIGH!";
+        }
+        this.setState({ errors: errors } );
+        return formIsValid;
+    }
 
     onFormSubmit(event) {
         event.preventDefault();
-        this.props.addTodo(this.state.description, this.state.priority);
+        if (this.handleValidation()) {
+            this.props.addTodo(this.state.fields.description, this.state.fields.priority);
+        } else {
+
+        }
     }
 
     onInputChange(event) {
-        this.setState({
-            description: event.target.value
-        });
+        let fields = this.state.fields;
+        fields.description = event.target.value;
+        this.setState({ fields });
     }
 
     onSelectChange(event) {
-        this.setState({
-            priority: event.target.value
-        });
+        let fields = this.state.fields;
+        fields.priority = event.target.value;
+        this.setState({ fields });
     }
 
     render() {
@@ -48,19 +79,23 @@ class FormTodo extends Component {
                     <Typography variant={ "h5" } className="center"><b>My first React app</b></Typography>
                     <form onSubmit={ this.onFormSubmit }>
                         <TextField className="enter-todo" label="Enter a todo" onChange={ this.onInputChange }/>
+                        <div className="errors">{ this.state.errors.description }</div>
                         <FormControl className="select-priority">
                             <InputLabel htmlFor="priority-customized-select-native">Priority</InputLabel>
-                            <NativeSelect id="priority-customized-select-native">
+                            <NativeSelect id="priority-customized-select-native" onChange={ this.onSelectChange }>
                                 <option aria-label="None" value="" />
                                 <option value="LOW">LOW</option>
                                 <option value="MEDIUM">MEDIUM</option>
                                 <option value="HIGH">HIGH</option>
                             </NativeSelect>
                         </FormControl>
-
-
+                        <div className="errors">{ this.state.errors.priority }</div>
                         <CardActions>
-                            <Button variant="contained" color="primary" type="submit">Add todo</Button>
+                            <Button
+                                className="add-todo-btn"
+                                variant="contained"
+                                color="primary"
+                                type="submit">Add todo</Button>
                         </CardActions>
                     </form>
                 </CardContent>

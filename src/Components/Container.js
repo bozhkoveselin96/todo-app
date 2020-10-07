@@ -9,10 +9,8 @@ export default class Container extends Component {
             todos : []
         }
         this.addTodo = this.addTodo.bind(this);
-        this.completeTodo = this.completeTodo.bind(this);
         this.removeTodo = this.removeTodo.bind(this);
-        this.cancelCompleteTodo = this.cancelCompleteTodo.bind(this);
-        this.changeTodoCompleteStatus = this.changeTodoCompleteStatus.bind(this);
+        this.toggleComplete = this.toggleComplete.bind(this);
     }
 
     addTodo(formDescription, formPriority) {
@@ -32,8 +30,12 @@ export default class Container extends Component {
         })
     }
 
-    completeTodo(todoIndex) {
-        this.changeTodoCompleteStatus(true, todoIndex);
+    toggleComplete(todoIndex, status) {
+        this.setState(({ todos }) => {
+            const allTodos = [ ...todos ];
+            allTodos[todoIndex].todo.completed = !status;
+            return { todos : allTodos };
+        });
     }
 
     removeTodo(todoIndex) {
@@ -44,27 +46,14 @@ export default class Container extends Component {
         });
     }
 
-    cancelCompleteTodo(todoIndex) {
-        this.changeTodoCompleteStatus(false, todoIndex);
-    }
-
-    changeTodoCompleteStatus(status, todoIndex) {
-        this.setState(({ todos }) => {
-            const allTodos = [ ...todos ];
-            allTodos[todoIndex].todo.completed = status;
-            return { todos : allTodos };
-        });
-    }
-
     render() {
         return (
             <div>
                 <FormTodo addTodo={ this.addTodo }/>
                 <ListTodos
                     todos={ this.state.todos }
-                    completeTodo={ this.completeTodo }
                     removeTodo={ this.removeTodo }
-                    cancelCompleteTodo={ this.cancelCompleteTodo }
+                    toggleComplete={ this.toggleComplete }
                 />
             </div>
         );

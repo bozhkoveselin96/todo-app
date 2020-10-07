@@ -60,9 +60,9 @@ hr {
 }
 
 .true-completed {
-    display: block;
+    display: block !important;
 }
 
 .false-completed {
-    display: none;
+    display: none !important;
 }
