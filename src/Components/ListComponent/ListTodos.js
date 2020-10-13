@@ -10,17 +10,11 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 
 export default class ListTodos extends Component {
-    constructor(props) {
-        super(props);
-        this.onRemove = this.onRemove.bind(this);
-        this.onToggle = this.onToggle.bind(this);
-    }
-
-    onRemove(index) {
+    onRemove = index => {
         this.props.removeTodo(index);
     }
 
-    onToggle(index, status) {
+    onToggle = (index, status) => {
         this.props.toggleComplete(index, status);
     }
 

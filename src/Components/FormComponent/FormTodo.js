@@ -10,7 +10,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 
-class FormTodo extends Component {
+export default class FormTodo extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,13 +20,9 @@ class FormTodo extends Component {
             },
             errors : {}
         };
-        this.onSelectChange = this.onSelectChange.bind(this);
-        this.onInputChange = this.onInputChange.bind(this);
-        this.onFormSubmit = this.onFormSubmit.bind(this);
-        this.handleValidation = this.handleValidation.bind(this);
     }
 
-    handleValidation() {
+    handleValidation = () => {
         let fields = this.state.fields;
         let errors = {};
         let formIsValid = true;
@@ -51,22 +47,20 @@ class FormTodo extends Component {
         return formIsValid;
     }
 
-    onFormSubmit(event) {
+    onFormSubmit = event => {
         event.preventDefault();
         if (this.handleValidation()) {
             this.props.addTodo(this.state.fields.description, this.state.fields.priority);
-        } else {
-
         }
     }
 
-    onInputChange(event) {
+    onInputChange = event => {
         let fields = this.state.fields;
         fields.description = event.target.value;
         this.setState({ fields });
     }
 
-    onSelectChange(event) {
+    onSelectChange = event => {
         let fields = this.state.fields;
         fields.priority = event.target.value;
         this.setState({ fields });
@@ -103,5 +97,3 @@ class FormTodo extends Component {
         );
     }
 }
-
-export default FormTodo;

@@ -8,12 +8,9 @@ export default class Container extends Component {
         this.state = {
             todos : []
         }
-        this.addTodo = this.addTodo.bind(this);
-        this.removeTodo = this.removeTodo.bind(this);
-        this.toggleComplete = this.toggleComplete.bind(this);
     }
 
-    addTodo(formDescription, formPriority) {
+    addTodo = (formDescription, formPriority) => {
         let allTodos = this.state.todos;
         let nextId = allTodos.length + 1;
         allTodos.push({
@@ -27,10 +24,10 @@ export default class Container extends Component {
         });
         this.setState({
             todos: allTodos
-        })
+        });
     }
 
-    toggleComplete(todoIndex, status) {
+    toggleComplete = (todoIndex, status) => {
         this.setState(({ todos }) => {
             const allTodos = [ ...todos ];
             allTodos[todoIndex].todo.completed = !status;
@@ -38,7 +35,7 @@ export default class Container extends Component {
         });
     }
 
-    removeTodo(todoIndex) {
+    removeTodo = todoIndex => {
         this.setState(({ todos }) => {
             const allTodos = [ ...todos ];
             allTodos.splice(todoIndex,1);
